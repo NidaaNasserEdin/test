@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
 
 
         //\App\Models\Area::factory()->count(5)->create();
-      Area::factory(5)->create();
+    //   Area::factory(5)->create();
        // Box::factory(5)->create();
-
+         \App\Models\Admin::factory(2)->create();
         // \App\Models\User::factory(10)->create();
     }
 }
