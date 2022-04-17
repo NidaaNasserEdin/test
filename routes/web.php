@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\App\Models\User;
+use Illuminate\Support\Facades\App\Models\Admin;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,25 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group([
+    'prefix' => '/dashboard',
+    'as' => 'dashboard.',
+    'namespace' => 'Dashboard',
+    'middleware' => ['auth:admin'],
+], function() {
+    Route::get('/', [HomeController::class ,'index']);
 
-Route::get('/', [HomeController::class ,'index']);
-Route::get('/dashboard',[DashboardController::class,'index']);
-Route::get('/dashboard/page',[DashboardController::class,'page']);
+    Route::get('/dashboard',[DashboardController::class,'index']);
 
+    Route::get('/dashboard/page',[DashboardController::class,'page']);
+});
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/dashboard', function () {
+    return view('dashboard.index');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
